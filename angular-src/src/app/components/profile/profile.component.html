@@ -1,0 +1,24 @@
+<div *ngIf="user" class="container">
+  <div class="row ">
+    <div class="col-sm-6 col-sm-offset-3">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <p [class.hidden]="editMode"> <i class="text-primary">Name : </i>{{user.name}}</p>
+          <input [value]="user.name" #name [class.hidden]="!editMode" type="text" class="form-control">
+        </li>
+        <li class="list-group-item">
+          <p> <i class="text-primary">Username : </i>{{user.username}}</p>
+        </li>
+        <li class="list-group-item">
+          <p> <i class="text-primary">Email : </i>{{user.email}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row text-center">
+    <button (click)="onEdit()" class="btn btn-primary btn-sm">Edit Info</button>
+    <button routerLink="/change-password" class="btn btn-primary btn-sm">Change Password</button>
+    <button [class.hidden]="!editMode" (click)="onCancel()" class="btn btn-warning btn-sm">Cancel</button>
+    <button [class.hidden]="!editMode" (click)="updateUserInfo(name.value)" class="btn btn-info btn-sm">Update Info</button>
+  </div>
+</div>

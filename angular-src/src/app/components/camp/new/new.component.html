@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h1 class="page-header">Add new Camp</h1>
+      <form (submit)="onNewCampSubmit
+()" role="form">
+        <legend>Form title</legend>
+        <div class="form-group">
+          <label for="">Name</label>
+          <input name="name" [(ngModel)]="name" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="">Image</label>
+          <input name="image" [(ngModel)]="image" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="">Description</label>
+          <textarea name="description" [(ngModel)]="description" type="text" class="form-control"  cols="30" rows="6"></textarea>
+        </div>
+        <button type="submit" class="btn btn-block btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

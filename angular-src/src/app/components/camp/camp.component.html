@@ -1,0 +1,29 @@
+<div *ngIf="allCamp" class="container">
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-5">
+      <h1><a routerLink="/camp-new" class="btn btn-lg btn-success">Add New Camp</a></h1>
+    </div>
+  </div>
+  <div *ngFor=" let camp of allCamp" class="row">
+    <div class="col-sm-12">
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-4">
+             <img class="img-responsive img-thumbnail" [src]="camp.image"/>
+          </div>
+          <div class="col-sm-4">
+            <h1 class="page-header text-center">{{camp.name}}</h1>
+            <p>{{camp.description}} --> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium laborum sapiente reiciendis non cupiditate dolore, fugit quos temporibus! Possimus obcaecati earum porro temporibus a quam consectetur dolorum aliquid est quia.</p>
+          </div>
+          <div class="col-sm-4">
+            <a [routerLink]="['/camp-details/',camp._id]" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+        <h5>Posted By : {{camp.user?.username}}</h5>
+      </div>
+    </div>
+  </div>
+  <!-- DEDICATED FOR ROUTER LINK -->
+</div>
+<router-outlet>
+</router-outlet>

@@ -1,0 +1,82 @@
+<div *ngIf="campDetail" class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class=" text-center">
+        <h1 [class.hidden]="editable"> {{campDetail.name}}</h1>
+        <input #name [class.hidden]="!editable" class="form-control" [value]="campDetail.name" type="text">
+      </div>
+      <div class="panel panel-default text-center">
+        <div class="panel-body">
+          <img class="img-responsive img-thumbnail" [src]="campDetail.image" [class.hidden]="editable"/>
+          <input #image [class.hidden]="!editable" class="form-control" [value]="campDetail.image" type="text">
+          <p [class.hidden]="editable">{{campDetail.description}}
+          </p>
+          <textarea #description type="text" [class.hidden]="!editable" class="form-control" [value]="campDetail.description"></textarea>
+        </div>
+        <div class="panel-footer">
+          <span *ngIf="checkCampOwner()">
+            <button (click)="editMode()" class="btn-default">Edit</button>
+            <button (click)="deleteCamp()" class="btn-danger">Delete</button>
+          </span>
+          <button (click)="newComment()" class="btn-info">New Comment</button>
+          <!-- passing local variable into update method -->
+          <button [class.hidden]="!editable" (click)="update(name.value,image.value,description.value)" class="btn-default">Update</button>
+          <!-- show or hide depends on editable value  -->
+          <button [class.hidden]="!editable" (click)="cancel()" class="btn-default">Cancel</button>
+          <address class="pull-right">Created by: {{campDetail.user.username}} </address>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ADD NEW COMMENT -->
+  <div [class.hidden]="!isNew" class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <input #nComment class="form-control" [(ngModel)]="a_commnent" name="a_commnent"  type="text" placeholder="enter your comment">
+      <br>
+      <button [class.hidden]="!isNew" (click)="addComment(nComment.value)" class="btn-info">Add Comment</button>
+      <button [class.hidden]="!isNew" (click)="commentCancel()" class="btn-default">Cancel</button>
+    </div>
+  </div>
+  <!-- COMMENTS LIST -->
+  <!-- get the current index using variable i -->
+  <!--  campDetail.comments is an array. declared local variable i to keep track it's index -->
+  <div *ngFor=" let comment of campDetail.comments.reverse(); let i = index" class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-3">
+                  <i class="text-primary">{{comment.user.username}} :</i>
+                </div>
+                <div class="col-sm-9">
+                  <p [class.hidden]="(i !== matched)?false:true">{{comment.text}}</p>
+                  <!-- (#cEdited) is a template local variable can be used anywhere in this view -->
+                  <!-- [(i !== matched)] this condition is handled by method(cEditMode)   -->
+                  <!-- {*@@@[value]="variable"@@@*} known as property binding what it does is binding the variable to DOM's value attribute(not every tag has value attribute) -->
+                  <input #cEdited [class.hidden]="(i !== matched)?true:false" [value]="comment.text" class="form-control" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <!-- only show if current user and comment user are same -->
+              <!-- ? is safe checking  -->
+              <span *ngIf="user?._id === comment?.user.id"> 
+              <!-- here i and cEdited are local variable aka templaet variable  -->
+               <button (click)="cEditMode(i,cEdited.value) " class="btn-default ">Edit</button>
+              <button [class.hidden]="(i !==matched)?false:true " (click)="deleteComment(comment) " class="btn-danger ">Delete</button>
+             </span>
+              <button [class.hidden]="(i !==matched)?true:false " (click)="updateComment(comment,cEdited.value) " class="btn-default ">Update</button>
+              <!-- hide the update and Cancel button by making the condition false  -->
+              <!-- if it show up that means the condition is something like (1 == 1) so change the value of matched to make it false -->
+              <button [class.hidden]="(i !==matched
+)?true:false " (click)="cancelComment() " class="btn-default ">Cancel</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
